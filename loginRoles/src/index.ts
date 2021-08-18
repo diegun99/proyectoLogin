@@ -6,6 +6,8 @@ import {Request, Response} from "express";
 import {Routes} from "./routes";
 import {User} from "./entity/User";
 
+//https://www.youtube.com/watch?v=8si7IFlj0l4&list=WL&index=40&t=246s enlace guia
+
 createConnection().then(async connection => {
 
     // create express app
