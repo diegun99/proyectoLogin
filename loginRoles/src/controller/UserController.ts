@@ -68,10 +68,10 @@ static editUser = async(req:Request,res:Response)=>{
     const {id} = req.params;
     const {username,role} = req.body;
 
-    const userRespository = getRepository(User);
+    const userRepository = getRepository(User);
     //try get user
     try {
-        user = await userRespository.findOneOrFail(id);
+        user = await userRepository.findOneOrFail(id);
         user.username = username;
         user.role = role;
     } catch (error) {
@@ -87,13 +87,30 @@ static editUser = async(req:Request,res:Response)=>{
 
     //try to save users
     try {
-        await userRespository.save(user);
+        await userRepository.save(user);
+    } catch (e) {
+        return res.status(409).json({message: 'update already in use'});
+    }
+    res.status(201).json({message:'update user'});
+
+};
+
+static deleteUser = async(req:Request,res:Response)=>{
+    const {id} = req.params;
+    const userRepository = getRepository(User);
+
+    let user:User;
+
+    try {
+        user = await userRepository.findOneOrFail(id); // buscar al usuario por id
     } catch (error) {
-        
+        return res.status(404).json({message: 'user not found'});
     }
 
+    //remove user
+    userRepository.delete(id);
+    res.status(201).json({message: 'usuario eliminado'});
 }
-    
     /* Métodos predeterminados por el orm
     private userRepository = getRepository(User);
 
@@ -115,3 +132,5 @@ static editUser = async(req:Request,res:Response)=>{
     }*/
 
 }
+
+export default UserController;
