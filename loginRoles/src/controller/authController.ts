@@ -12,10 +12,14 @@ class AuthController {
         const userRepository = getRepository(User);
         let user : User;
         try {
-            
+            user = await userRepository.findOneOrFail({where: {username}});// buscar el username
         } catch (error) {
-            
-        }
+            return  res.status(400).json({message : 'Username or password are invalid'});
+        };
 
-    }
+        res.send(user);
+
+    };
 }
+
+export default AuthController;

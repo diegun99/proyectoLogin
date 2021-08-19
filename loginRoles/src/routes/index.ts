@@ -5,7 +5,7 @@ import user from './user';
 // constante con las rutas
 const routes = Router();
 
-routes.use('/auth',auth);
+routes.use('/auth',auth);// prefijos
 routes.use('/user',user);
 
 export default routes;
