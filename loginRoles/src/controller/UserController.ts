@@ -10,16 +10,10 @@ static getAll = async(req:Request,res:Response)=>{
     const  userRepository = getRepository(User);// guardar el usuario entity USER
     try{
         const users = await userRepository.find();
-
-        if(User.length > 0){
-            res.send(users);
-        }else{
-            res.status(404).json({message:'No result'});
-        }
-
+        res.send(users);
     }
     catch(e){
-       res.status(404).json({message:'No result'});
+       res.status(404).json({message:'NoT result'});
     }
 
 
@@ -33,7 +27,7 @@ static getById = async(req: Request,res:Response)=>{
         const user = await userRepository.findOneOrFail(id);
         res.send(user);
     } catch (error) {
-        res.status(404).json({message:'No result'});
+        res.status(404).json({message:'NoT result'});
     }
 }
 

@@ -1,5 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, Unique,CreateDateColumn, UpdateDateColumn} from "typeorm";
 import { MinLength,IsNotEmpty} from "class-validator";
+
+import * as bcrypt from 'bcryptjs';
 // todo Is Email
 @Entity()
 @Unique(['username'])// le pasamos al decorador Unique el campo que queremos que sea unico, en este caso, username
@@ -9,7 +11,7 @@ export class User {
     id: number;
 
     @Column()
-    @MinLength(14)
+    @MinLength(3)
     username : string;
 
     @Column()
@@ -27,5 +29,11 @@ export class User {
     @Column()
     @UpdateDateColumn()
     updateAt : Date;// cuando se modificó
+
+
+    hashPassword(): void {// encriptar password
+        const salt = bcrypt.genSaltSync(10);// genera un salt sincronicamente
+        this.password = bcrypt.hashSync(this.password,salt);// genera un pasword encriptado, pasandole el password y un default 10;
+    }
 
 }
