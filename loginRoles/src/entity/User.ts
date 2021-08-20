@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, Unique,CreateDateColumn, UpdateDateColumn} from "typeorm";
 import { MinLength,IsNotEmpty} from "class-validator";
-
+// todo Is Email
 @Entity()
 @Unique(['username'])// le pasamos al decorador Unique el campo que queremos que sea unico, en este caso, username
 export class User {
