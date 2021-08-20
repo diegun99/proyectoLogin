@@ -23,7 +23,7 @@ createConnection().then(async () => {
     app.use(express.json());
 
     // routes
-    app.use('./',routes);
+    app.use('/',routes);
 
    
     // setup express app here
