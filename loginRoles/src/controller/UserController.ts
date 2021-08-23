@@ -49,6 +49,7 @@ static newUser = async(req:Request,res:Response)=>{
 
         const userRepository = getRepository(User);
         try {
+            user.hashPassword();
             await userRepository.save(user)
         } catch (error) {
             return res.status(409).json({message:'Username already exist'});

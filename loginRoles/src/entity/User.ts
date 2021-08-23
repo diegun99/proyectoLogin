@@ -36,4 +36,8 @@ export class User {
         this.password = bcrypt.hashSync(this.password,salt);// genera un pasword encriptado, pasandole el password y un default 10;
     }
 
+    checkPassword(password : string): boolean{
+       return  bcrypt.compareSync(password,this.password);
+    }
+
 }
