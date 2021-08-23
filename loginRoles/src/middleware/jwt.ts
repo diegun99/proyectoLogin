@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import config from '../config/config';
 
 export const checkJwt = (req:Request,res:Response,next : NextFunction)=>{
+    console.log('Req headers',req.headers);
     const token = <string>req.headers['auth'];// esperar un parametro que llamaremos 'auth
     let jwtPayload;
 
@@ -12,7 +13,7 @@ export const checkJwt = (req:Request,res:Response,next : NextFunction)=>{
     }
     catch(e){
 
-        return res.status(401).send();
+        return res.status(401).json({message: ' no authorized'});
     }
 
     const {userId, username} = jwtPayload;// extraemos el userId y el username
