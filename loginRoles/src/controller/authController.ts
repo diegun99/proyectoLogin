@@ -17,6 +17,11 @@ class AuthController {
             return  res.status(400).json({message : 'Username or password are invalid'});
         };
 
+        //check password
+        if(!user.checkPassword(password)){// en caso de que no sea true
+            res.status(400).json({message : 'User or password are incorrect login'});
+        }
+
         res.send(user);
 
     };
