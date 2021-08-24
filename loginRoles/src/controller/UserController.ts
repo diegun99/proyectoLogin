@@ -40,7 +40,8 @@ static newUser = async(req:Request,res:Response)=>{
     user.role = role;
 
     //validate
-    const errors = await validate(user);
+    const validationOpt = {validationError : {target : false, value : false}};
+    const errors = await validate(user,validationOpt);
         if (errors.length>0) {
             return res.status(400).json(errors);
         }
@@ -74,8 +75,8 @@ static editUser = async(req:Request,res:Response)=>{
     }
 
 
-
-    const errors =await validate(user);
+    const validationOpt = {validationError : {target : false, value : false}};
+    const errors =await validate(user,validationOpt);
     if (errors.length >0) {
         return res.status(400).json(errors);
     }
