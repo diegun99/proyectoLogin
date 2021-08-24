@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import {User} from '../entity/User'
 import * as jwt from 'jsonwebtoken';
 import config from "../config/config";
+import { validate } from "class-validator";
 
 class AuthController {
     static login = async (req: Request,res : Response)=>{
@@ -29,6 +30,32 @@ class AuthController {
         res.json({message : 'ok', token});
 
     };
+
+    static changePassword = async (req : Request, res: Response)=>{// cambiar contraseña
+        const {userId} = res.locals.jwtPayload;//destructurar
+        const {oldPassword,newPassword} = req.body;// el usuario debe enviar la contraseña antigua y la nueva
+        if(!(oldPassword && newPassword)){// si esas dos propiedades no estan
+            res.status(400).json({mesage: 'se requiere antiguo y nuevo password adecuado'});
+        }
+
+        const userRepository = getRepository(User);
+        let user : User;
+
+        try{
+        user = await userRepository.findOneOrFail(userId);
+            }
+            catch(e){
+                res.status(400).json({message:'algo salió mal'});
+            }
+
+            if(!user.checkPassword(oldPassword)){
+                    return res.status(401).json({message : 'revisa tu antiguo password'});
+            }
+
+            user.password = newPassword;
+            const validationopt = {validationError : {target : false, value : false}};
+            const errors = await validate(user,validationopt);
+    }
 }
 
 export default AuthController;
