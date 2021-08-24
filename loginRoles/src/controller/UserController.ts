@@ -8,7 +8,7 @@ export class UserController {
 
 static getAll = async(req:Request,res:Response)=>{
     const  userRepository = getRepository(User);// guardar el usuario entity USER
-    try{
+    try{// siempre usar try catch cuando se use async await
         const users = await userRepository.find();
         res.send(users);
     }
