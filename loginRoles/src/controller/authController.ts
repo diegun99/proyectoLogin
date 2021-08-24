@@ -55,6 +55,15 @@ class AuthController {
             user.password = newPassword;
             const validationopt = {validationError : {target : false, value : false}};
             const errors = await validate(user,validationopt);
+
+            if(errors.length>0){// si ocurre algun error
+                return res.status(400).json(errors);
+            }
+
+            //hashpassword
+            user.hashPassword();
+            userRepository.save(user);// guardar los cambios en la base de datos
+            res.json({message:'password cambiado'});
     }
 }
 
